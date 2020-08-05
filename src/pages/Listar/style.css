@@ -1,0 +1,50 @@
+h1 {
+  text-transform: uppercase;
+  margin-top: 40px;
+  margin-bottom: 50px;
+  letter-spacing: 0.15rem;
+}
+
+ul {
+  list-style: none;
+  width: 100%;
+}
+
+.card {
+  margin: auto;
+  position: relative;
+  margin-bottom: 30px;
+  box-shadow: 0px 10px 10px -5px rgba(0, 0, 0, 0.322);
+  border-radius: 20px;
+  width: 80%;
+  height: 200px;
+  padding: 0 30px 30px;
+}
+
+.card ul {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+.card ul li p,
+.card div p {
+  padding-top: 5px;
+  color: #b3b3b3;
+}
+
+.card div {
+  padding-top: 20px;
+}
+
+.icons {
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  cursor: pointer;
+  font-size: 1.2rem;
+}
+.icons a {
+  color: var(--cor-principal);
+  margin-left: 10px;
+}

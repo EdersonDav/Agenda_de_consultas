@@ -1,8 +1,15 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Rubik", sans-serif;
+}
+
+body {
   background-color: rgb(221, 221, 221);
   --cor-principal: rgb(52, 193, 185);
+  color: var(--cor-principal);
 }
 .container {
   background-color: #fff;
