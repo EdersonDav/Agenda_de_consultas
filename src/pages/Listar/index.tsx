@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { FaTrashAlt, FaEdit } from 'react-icons/fa';
@@ -46,6 +46,7 @@ const Listar: React.FC<EditProps> = (props) => {
 
   return (
     <div className="container">
+      <Link to="/" className="btn btnHome" type="submit">Home</Link>
       <h1>Consultas agendadas</h1>
       <ul>
         {consultas.map(con => (

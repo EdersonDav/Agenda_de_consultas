@@ -1,5 +1,7 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+import { Link } from 'react-router-dom'
 import axios from 'axios'
+import "./style.css"
 
 const Adicionar = () => {
   const [informacoes, setInformacoes] = useState({
@@ -11,7 +13,18 @@ const Adicionar = () => {
     descricao: ""
   });
 
+  const [message, setMessage] = useState("")
+
   function handleInputChange(event: ChangeEvent<HTMLInputElement>) {
+    if (event.target.name === "inicioConsulta" || event.target.name === "fimConsulta") {
+      let horaDigitada = `2020-07-15T${event.target.value}:00`
+      setInformacoes({ ...informacoes, [event.target.name]: horaDigitada })
+      return
+    }
+    setInformacoes({ ...informacoes, [event.target.name]: event.target.value })
+  }
+
+  function handleChange(event: ChangeEvent<HTMLTextAreaElement>) {
     setInformacoes({ ...informacoes, [event.target.name]: event.target.value })
   }
 
@@ -26,36 +39,100 @@ const Adicionar = () => {
       fimConsulta,
       descricao
     };
-    await axios.post('/Consultas', data)
-    //queryApi()
+    await axios.post('/Consultas', data).then(res => {
+      if (res.status === 200) {
+        setMessage("Edição salva com sucesso")
+        setInformacoes({
+          id: 0,
+          nome: "",
+          especialidade: "",
+          inicioConsulta: "",
+          fimConsulta: "",
+          descricao: ""
+        })
+      }
+    }).catch(error => {
+      if (error) {
+        setMessage("Algo deu errado, verifique os campos e salve novamente")
+      }
+    })
+  }
+
+  function cancelar() {
+    setInformacoes({
+      id: 0,
+      nome: "",
+      especialidade: "",
+      inicioConsulta: "",
+      fimConsulta: "",
+      descricao: ""
+    })
   }
 
   return (
-    <div>
+    <div className="container">
+      <Link to="/" className="btn btnHome" type="submit">Home</Link>
+      <h1>Cadastro</h1>
       <form onSubmit={handleSubmit}>
         <div className="inputs">
           <div className="field">
             <label htmlFor="nome">Nome</label>
-            <input type="text" name="nome" id="nome" onChange={handleInputChange} />
+            <input
+              type="text"
+              name="nome"
+              id="nome"
+              placeholder="Digite o nome do profissional de saúde"
+              onChange={handleInputChange}
+              value={informacoes.nome}
+            />
           </div>
           <div className="field">
             <label htmlFor="especialidade">Especialidade</label>
-            <input type="text" name="especialidade" id="especialidade" onChange={handleInputChange} />
+            <input type="text"
+              name="especialidade"
+              id="especialidade"
+              placeholder="Digite a especialidade"
+              onChange={handleInputChange}
+              value={informacoes.especialidade} />
           </div>
-          <div className="field">
+          <div className="fieldTime">
             <label htmlFor="inicioConsulta">Início</label>
-            <input type="text" name="inicioConsulta" id="inicioConsulta" onChange={handleInputChange} />
+            <div className="time">
+              <input
+                type="time"
+                name="inicioConsulta"
+                id="inicioConsulta"
+                onChange={handleInputChange} />
+              <span>horas</span>
+            </div>
           </div>
-          <div className="field">
+          <div className="fieldTime">
             <label htmlFor="fimConsulta">Fim</label>
-            <input type="text" name="fimConsulta" id="fimConsulta" onChange={handleInputChange} />
+            <div className="time">
+              <input
+                type="time"
+                name="fimConsulta"
+                id="fimConsulta"
+                onChange={handleInputChange}
+              />
+              <span>horas</span>
+            </div>
           </div>
           <div className="field">
             <label htmlFor="descricao">Descrição</label>
-            <input type="text" name="descricao" id="descricao" onChange={handleInputChange} />
+            <textarea name="descricao" id="descricao"
+              onChange={handleChange}
+              value={informacoes.descricao}
+            >
+
+            </textarea >
           </div>
         </div>
-        <input type="submit" value="Cadastrar" />
+        <div className="btnsCadastro">
+          <Link to="/" type="reset" className="btn btnCancelar" onClick={cancelar}>Cancelar</Link>
+          <button className="btn btnSalvar" type="submit">Salvar</button>
+        </div>
+        <h2>{message}</h2>
       </form>
     </div>
   )
